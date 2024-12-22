@@ -35,10 +35,10 @@ module.exports = {
           {
             groups: [
               [
-                '^nest',
+                '^@nest',
                 '^@?\\w',
                 // Internal packages.
-                '^(@|components)(/.*|$)',
+                '^(@|modules)(/.*|$)',
                 // Side effect imports.
                 '^\\u0000',
                 // Parent imports. Put `..` last.
@@ -48,8 +48,6 @@ module.exports = {
                 '^\\./(?=.*/)(?!/?$)',
                 '^\\.(?!/?$)',
                 '^\\./?$',
-                // Style imports.
-                '^.+\\.?(css)$',
               ],
             ],
           },

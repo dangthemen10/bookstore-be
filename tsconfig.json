@@ -1,40 +1,40 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "declaration": true,
-    "removeComments": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
-    "target": "esNext",
-    "sourceMap": true,
-    "outDir": "./dist",
-    "incremental": true,
-    "skipLibCheck": true,
-    "strictNullChecks": false,
-    "noImplicitAny": false,
-    "strictBindCallApply": false,
-    "forceConsistentCasingInFileNames": true,
-    "moduleResolution": "node",
-    "noFallthroughCasesInSwitch": true,
-    "esModuleInterop": true,
+    "module": "commonjs", // Use "commonjs" module system for Node.js.
+    "declaration": true, // Generate .d.ts declaration files for modules.
+    "removeComments": true, // Remove all comments in the compiled output.
+    "emitDecoratorMetadata": true, // Emit metadata for decorators (used in TypeScript).
+    "experimentalDecorators": true, // Enable support for decorators (experimental feature).
+    "allowSyntheticDefaultImports": true, // Allow default imports from modules that don't support ES6.
+    "target": "esNext", // Compile code to ESNext (latest JavaScript version).
+    "sourceMap": true, // Generate source map files for debugging.
+    "outDir": "./dist", // Output directory for compiled code.
+    "incremental": true, // Enable incremental compilation for faster builds.
+    "skipLibCheck": true, // Skip type checking in declaration files.
+    "strictNullChecks": false, // [EN] Disable strict null/undefined checks.
+    "noImplicitAny": false, // Allow implicit "any" types.
+    "strictBindCallApply": false, // Disable strict checks for "bind", "call", and "apply" methods.
+    "forceConsistentCasingInFileNames": true, // Enforce consistent casing in file names.
+    "moduleResolution": "node", // Use "node" module resolution strategy.
+    "noFallthroughCasesInSwitch": true, // Prevent fallthrough errors in switch-case statements.
+    "esModuleInterop": true, // Enhance interoperability between CommonJS and ESModules.
     "paths": {
-      "@/*": ["./src/*"],
-      "@modules/*": ["src/modules/*"]
+      "@/*": ["./src/*"], // Alias @ pointing to ./src directory.
+      "@modules/*": ["src/modules/*"] // Alias @modules pointing to src/modules.
     },
-    "allowJs": true,
-    "noEmit": false,
-    "typeRoots": ["./node_modules/@types", "src/@types"],
-    "types": ["jest", "node"],
+    "allowJs": true, // Enable compilation of .js files.
+    "noEmit": false, // Allow emitting compiled code.
+    "typeRoots": ["./node_modules/@types", "src/@types"], // Specify directories for type declarations.
+    "types": ["jest", "node"], // Include type declarations for "jest" and "node".
 
-    "importHelpers": true,
-    "noImplicitThis": true,
-    "alwaysStrict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": false,
-    "noImplicitReturns": true,
-    "resolveJsonModule": true,
-    "baseUrl": "."
+    "importHelpers": true, // Optimize imports using helper functions from tslib.
+    "noImplicitThis": true, // Disallow implicit "this" of undefined type.
+    "alwaysStrict": true, // Enable "strict mode" in all files.
+    "noUnusedLocals": true, // Warn about unused local variables.
+    "noUnusedParameters": false, // Don't warn about unused parameters.
+    "noImplicitReturns": true, // Warn when not all code paths in a function return a value.
+    "resolveJsonModule": true, // Enable importing JSON modules.
+    "baseUrl": "." // Set the base path to the project root.
   },
-  "include": ["src", "test"]
+  "include": ["src", "test"] // Specify directories included for compilation.
 }

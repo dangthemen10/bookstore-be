@@ -8,3 +8,4 @@ commitlint.config.ts
 package.json
 nest-cli.json
 tsconfig.build.json
+dist/

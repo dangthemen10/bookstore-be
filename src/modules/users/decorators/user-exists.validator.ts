@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
+import { emailRegex, UserDocument } from '@modules/users/user.schema';
+import { UserService } from '@modules/users/user.service';
 import {
   ValidationArguments,
   ValidatorConstraint,
   ValidatorConstraintInterface,
 } from 'class-validator';
-import { emailRegex, UserDocument } from '../user.schema';
-import { UserService } from '../user.service';
 
 @ValidatorConstraint({ name: 'user', async: true })
 @Injectable()
