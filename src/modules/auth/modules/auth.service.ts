@@ -4,6 +4,12 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import {
+  LoginUserDto,
+  RegisterUserDto,
+  ResetPasswordDto,
+} from '@modules/auth/dto';
+import { PasswordService } from '@modules/auth/modules/password.service';
 import { envConfig } from '@/common/config/env.config';
 import {
   DataStoredFromToken,
@@ -14,8 +20,6 @@ import {
 import { UserRepository } from '@/modules/users/user.repository';
 import { emailRegex, UserDocument } from '@/modules/users/user.schema';
 import { EmailService } from '@/providers/email/email.service';
-import { LoginUserDto, RegisterUserDto, ResetPasswordDto } from '../dto';
-import { PasswordService } from './password.service';
 
 @Injectable()
 export class AuthService {

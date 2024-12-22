@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { userSchema } from '@/modules/users/user.schema';
-import { UserExitsValidator } from './decorators';
-import { UserController } from './user.controller';
-import { UserRepository } from './user.repository';
-import { UserService } from './user.service';
+import { UserExitsValidator } from '@modules/users/decorators';
+import { UserController } from '@modules/users/user.controller';
+import { UserRepository } from '@modules/users/user.repository';
+import { userSchema } from '@modules/users/user.schema';
+import { UserService } from '@modules/users/user.service';
 
 @Module({
   imports: [MongooseModule.forFeature([{ name: 'Users', schema: userSchema }])],

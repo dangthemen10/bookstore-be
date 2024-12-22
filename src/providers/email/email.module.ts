@@ -3,7 +3,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import sendGridTransport from 'nodemailer-sendgrid-transport';
 import { envConfig } from '@/common/config/env.config';
-import { EmailService } from './email.service';
+import { EmailService } from '@/providers/email/email.service';
 
 @Module({
   imports: [

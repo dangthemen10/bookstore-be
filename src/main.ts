@@ -7,8 +7,8 @@ import session from 'express-session';
 import passport from 'passport';
 import { AppModule } from '@/app.module';
 import { envConfig } from '@/common/config/env.config';
-import { sessionConfig } from './common/config/session.config';
-import { setupSwagger } from './common/config/swagger.config';
+import { sessionConfig } from '@/common/config/session.config';
+import { setupSwagger } from '@/common/config/swagger.config';
 
 async function bootstrap() {
   const env = envConfig();

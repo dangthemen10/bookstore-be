@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { PassportStrategy } from '@nestjs/passport';
+import { RegisterUserDto } from '@modules/auth/dto';
 import { Model } from 'mongoose';
 import { Profile, Strategy } from 'passport-facebook';
-import { envConfig } from 'src/common/config/env.config';
+import { envConfig } from '@/common/config/env.config';
 import { UserDocument } from '@/modules/users/user.schema';
-import { RegisterUserDto } from '../dto';
 
 @Injectable()
 export class FacebookStrategy extends PassportStrategy(Strategy, 'facebook') {

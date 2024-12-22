@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
+import { UserRepository } from '@modules/users/user.repository';
 import { UserWhereUniqueInput } from '@/modules/users/dto/user-where-unique.input.ts';
-import { UserRepository } from './user.repository';
 
 @Injectable()
 export class UserService {

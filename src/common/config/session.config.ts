@@ -1,5 +1,5 @@
 import session from 'express-session';
-import { envConfig } from './env.config';
+import { envConfig } from '@/common/config/env.config';
 export const SESSION_AUTH_KEY = 'SESSION_AUTH';
 
 export function sessionConfig(): session.SessionOptions {

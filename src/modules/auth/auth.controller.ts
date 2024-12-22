@@ -11,17 +11,17 @@ import {
 } from '@nestjs/common';
 import { BadRequestException } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import type { Request } from 'express';
-import { SESSION_AUTH_KEY } from '@/common/config/session.config';
-import { SessionAuthToken, UserFromRequest } from '@/common/type/http.types';
-import { AuthService } from './modules/auth.service';
 import {
   LoginUserDto,
   RegisterUserDto,
   RequestForgotPasswordInput,
   ResetPasswordDto,
-} from './dto';
-import { JwtAuth, JwtRefreshTokenGuard } from './guards';
+} from '@modules/auth/dto';
+import { JwtAuth, JwtRefreshTokenGuard } from '@modules/auth/guards';
+import { AuthService } from '@modules/auth/modules/auth.service';
+import type { Request } from 'express';
+import { SESSION_AUTH_KEY } from '@/common/config/session.config';
+import { SessionAuthToken, UserFromRequest } from '@/common/type/http.types';
 
 @Controller('auth')
 @ApiTags('Auth')
