@@ -16,6 +16,30 @@ export class UserRepository {
     return await this.userModel.findOne(where).lean().exec();
   }
 
+  public async findOneAndSelectPaasword(
+    where: UserWhereUniqueInput,
+    isSelect?: boolean,
+  ): Promise<any> {
+    if (isSelect) {
+      return await this.userModel
+        .findOne(where)
+        .select('+password')
+        .lean()
+        .exec();
+    }
+    return await this.userModel.findOne(where).lean().exec();
+  }
+
+  public async findOneAndSelectCurrentHashedRefreshToken(
+    email: string,
+  ): Promise<any> {
+    return await this.userModel
+      .findOne({ email: email })
+      .select('+currentHashedRefreshToken')
+      .lean()
+      .exec();
+  }
+
   public async findById(_id: string): Promise<any> {
     return await this.userModel.findById(_id).lean().exec();
   }
@@ -30,11 +54,23 @@ export class UserRepository {
 
   public async findByIdAndUpdateUser(
     id: string,
-    refreshToken: string,
+    currentHashedRefreshToken: string,
   ): Promise<any> {
     return await this.userModel
       .findByIdAndUpdate(id, {
-        refreshToken,
+        currentHashedRefreshToken,
+      })
+      .lean()
+      .exec();
+  }
+
+  public async findByIdAndUpdatePassword(
+    id: string,
+    password: string,
+  ): Promise<any> {
+    return await this.userModel
+      .findByIdAndUpdate(id, {
+        password,
       })
       .lean()
       .exec();

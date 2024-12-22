@@ -29,6 +29,12 @@ export const envConfig = (): EnvConfig => {
       sendgridApiKey: process.env.SENDGRID_API_KEY,
       emailSender: process.env.EMAIL_AUTH_USER ?? '',
     },
+    auth: {
+      facebookAppId: process.env.FB_APP_ID,
+      facebookAppSecret: process.env.FB_APP_SECRET,
+      googleAppId: process.env.GOOGLE_APP_ID,
+      googleAppSecret: process.env.GOOGLE_APP_SECRET,
+    },
   };
 };
 
@@ -49,5 +55,11 @@ export interface EnvConfig {
   email: {
     sendgridApiKey: string;
     emailSender: string;
+  };
+  auth?: {
+    facebookAppId: string;
+    facebookAppSecret: string;
+    googleAppId: string;
+    googleAppSecret: string;
   };
 }
