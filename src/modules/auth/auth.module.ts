@@ -8,7 +8,6 @@ import { PasswordService } from '@modules/auth/modules/password.service';
 import { JwtStrategy } from '@modules/auth/strategies/jwt.strategy';
 import { JwtRefreshTokenStrategy } from '@modules/auth/strategies/jwt-refresh.strategy';
 import { UserModule } from '@modules/users/user.module';
-import { UserRepository } from '@modules/users/user.repository';
 import { userSchema } from '@modules/users/user.schema';
 import { envConfig } from '@/common/config/env.config';
 import { EmailModule } from '@/providers/email/email.module';
@@ -32,8 +31,7 @@ import { EmailModule } from '@/providers/email/email.module';
     PasswordService,
     JwtStrategy,
     JwtRefreshTokenStrategy,
-    UserRepository,
   ],
-  exports: [AuthService, PasswordService, JwtModule, UserRepository],
+  exports: [AuthService, PasswordService, JwtModule],
 })
 export class AuthModule {}

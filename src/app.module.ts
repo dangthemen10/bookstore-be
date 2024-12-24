@@ -1,11 +1,14 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from '@modules/auth/auth.module';
+import { AvatarModule } from '@modules/avatar/avatar.module';
+import { BookModule } from '@modules/books/book.module';
 import { UserModule } from '@modules/users/user.module';
 import { Connection } from 'mongoose';
 import { AppController } from '@/app.controller';
 import { AppService } from '@/app.service';
 import { envConfig } from '@/common/config/env.config';
+import { EmailModule } from '@/providers/email/email.module';
 
 @Module({
   imports: [
@@ -28,8 +31,11 @@ import { envConfig } from '@/common/config/env.config';
         },
       }),
     }),
-    AuthModule,
+    EmailModule,
     UserModule,
+    AuthModule,
+    BookModule,
+    AvatarModule,
   ],
   controllers: [AppController],
   providers: [AppService],
