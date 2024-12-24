@@ -1,1 +1,1 @@
-export * from './user-exists.validator';
+export * from '@modules/users/decorators/user-exists.validator';
