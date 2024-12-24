@@ -57,7 +57,10 @@ export class AuthController {
   }
 
   @Post('register')
-  public async register(@Body() input: RegisterUserDto) {
+  public async register(
+    @Body()
+    input: RegisterUserDto,
+  ) {
     return await this.authService.register(input);
   }
 

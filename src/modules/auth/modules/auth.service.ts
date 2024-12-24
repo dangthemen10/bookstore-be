@@ -4,12 +4,14 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { InjectModel } from '@nestjs/mongoose';
 import {
   LoginUserDto,
   RegisterUserDto,
   ResetPasswordDto,
 } from '@modules/auth/dto';
 import { PasswordService } from '@modules/auth/modules/password.service';
+import { Model } from 'mongoose';
 import { envConfig } from '@/common/config/env.config';
 import {
   DataStoredFromToken,
@@ -17,17 +19,16 @@ import {
   SessionAuthToken,
   UserFromRequest,
 } from '@/common/type/http.types';
-import { UserRepository } from '@/modules/users/user.repository';
 import { emailRegex, UserDocument } from '@/modules/users/user.schema';
 import { EmailService } from '@/providers/email/email.service';
 
 @Injectable()
 export class AuthService {
   constructor(
+    @InjectModel('Users') private userModel: Model<UserDocument>,
     private readonly jwtService: JwtService,
     private readonly emailService: EmailService,
     private readonly passwordService: PasswordService,
-    private readonly userRepository: UserRepository,
   ) {}
 
   public async getUserFromToken(token: string): Promise<UserDocument | null> {
@@ -35,9 +36,9 @@ export class AuthService {
       await this.jwtService.verifyAsync(token);
     if (!decoded || !decoded?.user) return null;
     const { user } = decoded;
-    const realUser: UserDocument = await this.userRepository.findByEmail(
-      user.email,
-    );
+    const realUser = (await this.userModel
+      .findOne({ email: user.email })
+      .lean()) as UserDocument;
     if (!realUser) return null;
     return realUser;
   }
@@ -61,7 +62,7 @@ export class AuthService {
       await this.jwtService.verifyAsync(token);
     if (!decoded || !decoded.user) return null;
     const { user } = decoded;
-    const newUser = await this.userRepository.createUser(user);
+    const newUser = await this.userModel.create(user);
     await this.emailService.sendWelcome(newUser.email);
     return newUser;
   }
@@ -92,10 +93,11 @@ export class AuthService {
   ): Promise<UserDocument> {
     const currentHashedRefreshToken =
       await this.passwordService.hash(refreshToken);
-    const user = await this.userRepository.findByIdAndUpdateUser(
-      id,
-      currentHashedRefreshToken,
-    );
+    const user = (await this.userModel
+      .findByIdAndUpdate(id, {
+        currentHashedRefreshToken,
+      })
+      .lean()) as UserDocument;
     return user;
   }
 
@@ -107,25 +109,24 @@ export class AuthService {
       throw new UnauthorizedException('Token invalid or missing');
     }
     const { user } = decoded;
-    const realUser = await this.userRepository.findOneAndSelectPaasword(
-      { email: user.email },
-      true,
-    );
+    const realUser = (await this.userModel
+      .findOne({ email: user.email })
+      .select('+password')
+      .lean()) as UserDocument;
 
     if (!realUser) {
       throw new UnauthorizedException(`Can not find user with token given`);
     }
 
     const hash = await this.passwordService.hash(newPassword);
-    const updated = await this.userRepository.findByIdAndUpdatePassword(
-      realUser._id,
-      hash,
-    );
+    const updated = (await this.userModel
+      .findByIdAndUpdate(realUser._id, { password: hash })
+      .lean()) as UserDocument;
     return updated;
   }
 
   public async forgotPassword(email: string) {
-    const user = await this.userRepository.findOne({ email });
+    const user = await this.userModel.findOne({ email }).lean();
     if (!user) {
       throw new BadRequestException(`Not user found with email: ${email}`);
     }
@@ -159,10 +160,11 @@ export class AuthService {
       await this.jwtService.verifyAsync(refreshToken);
     const userReq: UserFromRequest = decoded.user;
     if (!decoded || !userReq) return null;
-    const user: UserDocument =
-      await this.userRepository.findOneAndSelectCurrentHashedRefreshToken(
-        userReq.email,
-      );
+
+    const user = (await this.userModel
+      .findOne({ email: userReq.email })
+      .select('+currentHashedRefreshToken')
+      .lean()) as UserDocument;
     if (!user) return null;
     const isRefreshTokenMatching = await this.passwordService.verify(
       user.currentHashedRefreshToken,
@@ -178,19 +180,15 @@ export class AuthService {
     const isEmail = emailRegex.test(usernameOrEmail);
     let user: UserDocument;
     if (isEmail) {
-      user = await this.userRepository.findOneAndSelectPaasword(
-        {
-          email: usernameOrEmail,
-        },
-        true,
-      );
+      user = (await this.userModel
+        .findOne({ email: usernameOrEmail })
+        .select('+password')
+        .lean()) as UserDocument;
     } else {
-      user = await this.userRepository.findOneAndSelectPaasword(
-        {
-          username: usernameOrEmail,
-        },
-        true,
-      );
+      user = (await this.userModel
+        .findOne({ username: usernameOrEmail })
+        .select('+password')
+        .lean()) as UserDocument;
     }
 
     if (!user) return null;
