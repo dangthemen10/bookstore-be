@@ -10,12 +10,21 @@ import {
 } from 'class-validator';
 
 export class RegisterUserDto {
-  @ApiProperty({ type: String, description: 'Username', example: 'David' })
+  @ApiProperty({
+    type: String,
+    description: 'Your username information',
+    example: 'David',
+  })
   @Matches(/[a-zA-Z0-9_-]{2,20}/)
   @Validate(UserExitsValidator)
   username: string;
 
-  @ApiProperty({ example: 'example@gmail.com' })
+  @ApiProperty({
+    type: String,
+    required: true,
+    description: 'Your email information',
+    example: 'example@gmail.com',
+  })
   @IsEmail()
   @Validate(UserExitsValidator)
   email: string;
@@ -24,7 +33,7 @@ export class RegisterUserDto {
     type: String,
     required: false,
     minimum: 3,
-    description: 'Please input password',
+    description: 'Please input your password',
     example: '12345',
   })
   @IsString()
