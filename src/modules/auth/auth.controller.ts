@@ -10,7 +10,12 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { BadRequestException } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import {
   LoginUserDto,
   RegisterUserDto,
@@ -57,7 +62,10 @@ export class AuthController {
   }
 
   @Post('register')
-  public async register(@Body() input: RegisterUserDto) {
+  public async register(
+    @Body()
+    input: RegisterUserDto,
+  ) {
     return await this.authService.register(input);
   }
 
@@ -93,6 +101,27 @@ export class AuthController {
 
   @UseGuards(JwtRefreshTokenGuard)
   @Post('refresh')
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'Refresh the access token',
+    description: 'Refresh the access token for an authenticated user.',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Access token refreshed successfully.',
+    schema: {
+      example: {
+        authToken: {
+          accessToken: 'newAccessToken12345',
+          refreshToken: 'newRefreshToken12345',
+        },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized. User is not authenticated.',
+  })
   public async refreshToken(@Req() req: Request) {
     const user = req.user as UserFromRequest;
     if (!user) throw new UnauthorizedException();
